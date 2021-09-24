@@ -5,7 +5,8 @@ BUY_PATHS = {
     'creditCardInstallment': r"//input[@id='paymentCardSplit']/parent::*",
     'installmentLast': r"//tbody[@id='paymentBody']/tr[last()]/td/input[@name='selAllot']",
     'CCV': r"//input[@id='cardCVV']",
-    'confirmCheckout': r"//article[@class='checkoutArea']/a"
+    'confirmCheckout': r"//article[@class='checkoutArea']/a",
+    'buyDisable': r"//a[@id='buy_no']"
 }
 
 LOGIN_X_PATHS = {

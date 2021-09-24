@@ -1,10 +1,15 @@
+from datetime import datetime
+
+import pause as pause
 from selenium import webdriver
+from selenium.webdriver import DesiredCapabilities
+from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions
 from selenium.webdriver.support.wait import WebDriverWait
 
 from xPaths import (
-    BUY_PATHS, LOGIN_X_PATHS
+    LOGIN_X_PATHS, BUY_PATHS
 )
 
 """
@@ -17,10 +22,13 @@ from settings import (
 """
 設定 option 可讓 chrome 記住已登入帳戶，成功後可以省去後續"登入帳戶"的程式碼
 """
-options = webdriver.ChromeOptions()
+options = Options()
 options.add_argument("--disable-notifications")
 
-driver = webdriver.Chrome("./chromedriver", chrome_options=options)
+desired_capabilities = DesiredCapabilities.CHROME  # 修改页面加载策略
+desired_capabilities["pageLoadStrategy"] = "none"  # 注释这两行会导致最后输出结果的延迟，即等待页面加载完成再输出
+
+driver = webdriver.Chrome("./chromedriver", options=options)
 
 
 def main():
@@ -29,7 +37,13 @@ def main():
     except:
         print('已經登入過或登入失敗')
 
+    start_date_time_string = input("請輸入YYYY/MM/DD hh:mm:ss (24H)設定啟動時間:")
+    start_date_time = datetime.strptime(start_date_time_string, "%Y/%m/%d %H:%M:%S")
+
+    pause.until(start_date_time)
+
     driver.get(URL)
+    check_buy_available(BUY_PATHS['buy'])
     click(BUY_PATHS['buy'], True)
     click(BUY_PATHS['confirm'], True)
     click(BUY_PATHS['checkout'], True)
@@ -37,6 +51,14 @@ def main():
     click(BUY_PATHS['installmentLast'], True)
     input_value(BUY_PATHS['CCV'], 123)
     # click(BUY_PATHS['confirmCheckout'])
+
+
+def check_buy_available(xpath):
+    while True:
+        if driver.find_elements_by_xpath(xpath):
+            break
+        else:
+            driver.refresh()
 
 
 def click(xpath, is_check):
