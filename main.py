@@ -25,8 +25,8 @@ from settings import (
 options = Options()
 options.add_argument("--disable-notifications")
 
-desired_capabilities = DesiredCapabilities.CHROME  # 修改页面加载策略
-desired_capabilities["pageLoadStrategy"] = "none"  # 注释这两行会导致最后输出结果的延迟，即等待页面加载完成再输出
+desired_capabilities = DesiredCapabilities.CHROME  # 修改頁面加載策略
+desired_capabilities["pageLoadStrategy"] = "none"  # 註釋這兩行會導致最後輸出結果的延遲，即等待頁面加載完成再輸出
 
 driver = webdriver.Chrome("./chromedriver", options=options)
 
