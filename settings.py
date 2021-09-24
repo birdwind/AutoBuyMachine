@@ -1,0 +1,3 @@
+URL = 'MOMO-商品URL'
+ACCOUNT = '帳號'
+PASSWORD = '密碼'
